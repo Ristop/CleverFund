@@ -1,0 +1,12 @@
+Detailed change log for future reference
+
+$ - rails new CleverFund
+
+$ - git init
+$ - git add -a
+$ - git commit -a -m "Initial commit"
+$ - git remote add origin https://github.com/Ristop/CleverFund.git
+$ - git push --set-upstream origin master
+
+$ - rails s
+$ - rails generate controller Notice index

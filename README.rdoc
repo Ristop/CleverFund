@@ -1,28 +1,9 @@
-== README
+== CleverFund
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+CleverFund will be easy to use budgeting app that reads the data from bank notices that are sent to your email
+account when you have that option enabled in your banks setting. It will use gmail API for ruby to fetch bank
+messages and import the date to excel spreadsheet.
 
-Things you may want to cover:
+* App is in pre-alpha and is not yet usable!
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Since this is my first rails application, I will be documenting all the changes very specifically in changelog.txt
