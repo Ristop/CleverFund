@@ -2,7 +2,7 @@
 
 CleverFund will be easy to use budgeting app that reads the data from bank notices that are sent to your email
 account when you have that option enabled in your banks setting. It will use gmail API for ruby to fetch bank
-messages and import the date to excel spreadsheet.
+messages and import the data to excel spreadsheet.
 
 * App is in pre-alpha and is not yet usable!
 

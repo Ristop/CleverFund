@@ -4,6 +4,8 @@ require 'googleauth/stores/file_token_store'
 
 require 'fileutils'
 
+require './NoticeParser.rb'
+
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'CleverFund'
 CLIENT_SECRETS_PATH = 'client_secret.json'
@@ -48,14 +50,26 @@ service = Google::Apis::GmailV1::GmailService.new
 service.client_options.application_name = APPLICATION_NAME
 service.authorization = authorize
 
-# Show the user's labels
+service2 = Google::Apis::GmailV1::GmailService.new
+service2.client_options.application_name = APPLICATION_NAME
+service2.authorization = authorize
+
+# Show the user's messages
 user_id = 'me'
-result = service.list_user_messages(user_id)
+all_messages = service.list_user_messages(user_id, q: "from:automailer@seb.ee",  include_spam_trash: false)
+all_messages.messages.each { |message|
 
-puts result
+	# Get entire body of the message
+	message_body = service2.get_user_message(user_id, message.id).payload.parts[0].body.data.force_encoding("UTF-8")
 
-result.Messages.each { |chr|  puts chr }
-
-#puts "Labels:"
-#puts "No labels found" if result.labels.empty?
-#result.labels.each { |label| puts "- #{label.name}" }
+	# Figure out what type of message it is
+	if message_body.include? "Teie kontol on toimunud broneering"
+		puts NoticeParser.parseBroneering(message_body)
+	elsif message_body.include? "Teie kontolt on toimunud väljaminek"
+		puts NoticeParser.parseValjaminek(message_body)
+	elsif message_body.include? "Teie kontole on toimunud laekumine"
+		puts NoticeParser.parseLaekmine(message_body)
+	else
+		raise "Exception - Unknow notice type! - #{message_body}"
+	end
+}
