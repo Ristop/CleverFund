@@ -10,3 +10,17 @@ $ - git push --set-upstream origin master
 
 $ - rails s
 $ - rails generate controller Notice index
+
+Aug 16 2016 -
+	1.1 Generated controller for notice
+	1.2 set up a super basic page template
+	1.3 Tried to get Gmail API to work ( it did not :( )
+
+Aug 17 2016 -
+	1.1 Got Gmail API working! woo! Can now get messages from email account (gmailReader.rb)
+	2.2 Sorted out only SEB automailer messages (gmailReader.rb)
+	2.3 Cleverfund now makes a difference between different types of mails (broneering, laekumine, väljaminek)
+	2.4 Created a notice class for holding information about the notice (Notice.rb)
+	2.5 Created a parser for different types of messages (NoticeParser)
+	2.6 Right now gmailReader.rb reads all emails, sorts out sebautomailer ones and sends them to parser, parser
+		then parses the mail accordingly and returns Notice Object to gmailReader.rb

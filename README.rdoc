@@ -6,4 +6,9 @@ messages and import the data to excel spreadsheet.
 
 * App is in pre-alpha and is not yet usable!
 
+Implemented features
+
+* Reading messages from email.
+* Sorting and parsing sebautomailer messages.
+
 Since this is my first rails application, I will be documenting all the changes very specifically in changelog.txt
