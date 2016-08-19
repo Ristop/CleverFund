@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-	get 'notice/index'
+	get 'notice' => 'notice#index'
+	get 'notice/scan' => 'notice#scan'
 end

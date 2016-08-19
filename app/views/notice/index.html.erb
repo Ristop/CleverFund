@@ -15,9 +15,9 @@
 </head>
 
 <body>
+	<br>
 	<div class="container">
-		<p></p>
-		<a type="button" class="btn btn-info btn-lg">Scan for new messages</a>
+		<%= button_to "Scan", { action: "scan" }, method: "get", class: "btn btn-info btn-lg center-block" %>
 	</div>
 </body>
 </html>
