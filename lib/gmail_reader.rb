@@ -4,8 +4,8 @@ module GmailReader
     require 'googleauth/stores/file_token_store'
 
     require 'fileutils'
-
     require 'notice_parser.rb'
+    require 'date'
 
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
     APPLICATION_NAME = 'CleverFund'.freeze
@@ -48,33 +48,47 @@ module GmailReader
         credentials
     end
 
-    def self.fetchData
+    @@authorization = authorize
+
+    def self.read_bank_notices(date)
         # Initialize the API
         service = Google::Apis::GmailV1::GmailService.new
         service.client_options.application_name = APPLICATION_NAME
-        service.authorization = authorize
+        service.authorization = @@authorization
 
-        service2 = Google::Apis::GmailV1::GmailService.new
-        service2.client_options.application_name = APPLICATION_NAME
-        service2.authorization = authorize
+        google_formated_date = DateTime.strptime(date, '%s').to_formatted_s(:google_after)
 
-        # Show the user's messages
-        user_id = 'me'
-        all_messages = service.list_user_messages(user_id, q: 'from:automailer@seb.ee', max_results: 1, include_spam_trash: false)
+        user_id = 'me' # Use authenicated users email
+        all_messages = service.list_user_messages(user_id, q: 'from:automailer@seb.ee after:' + google_formated_date, max_results: 15, include_spam_trash: false)
+
+        newest_date = nil
+
         all_messages.messages.each do |message|
-            # Get entire body of the message
-            message_body = service2.get_user_message(user_id, message.id).payload.parts[0].body.data.force_encoding('UTF-8')
+            message = service.get_user_message(user_id, message.id)
+            message_internal_date = message.internal_date[0..-4]
+
+            next unless DateTime.strptime(message_internal_date, '%s') > DateTime.strptime(date, '%s')
+            if newest_date.nil? || DateTime.strptime(newest_date, '%s') < DateTime.strptime(message_internal_date, '%s')
+                puts 'Updating date'
+                newest_date = message_internal_date
+            end
+            message_body = message.payload.parts[0].body.data.force_encoding('UTF-8')
 
             # Figure out what type of message it is
             if message_body.include? 'Teie kontol on toimunud broneering'
-                puts NoticeParser.parseBroneering(message_body)
-            elsif message_body.include? "Teie kontolt on toimunud v\u00E4ljaminek"
-                puts NoticeParser.parseValjaminek(message_body)
+                NoticeParser.parseBroneering(message_body, message_internal_date)
+            elsif message_body.include? "Teie kontolt on toimunud väljaminek"
+                NoticeParser.parseValjaminek(message_body, message_internal_date)
             elsif message_body.include? 'Teie kontole on toimunud laekumine'
-                puts NoticeParser.parseLaekmine(message_body)
+                NoticeParser.parseLaekmine(message_body, message_internal_date)
             else
                 raise "Exception - Unknow notice type! - #{message_body}"
-            end
+			end
+
+        end
+        unless newest_date.nil?
+            puts 'Writing new date'
+            AppVariable.find(1).update_attribute(:value, newest_date)
         end
     end
 end

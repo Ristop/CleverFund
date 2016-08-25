@@ -1,0 +1,35 @@
+.table-striped-red> tbody> tr {
+    background-color: #4DD0E1;
+    color: white;
+    margin: 5px 0;
+}
+.table-striped-green> tbody> tr {
+    background-color: #795548;
+    color: white;
+    margin: 5px 0;
+}
+.table-striped-red, .table-striped-green {
+    width: 100%;
+}
+
+th.date {
+  width: 20%
+}
+th.description {
+  width: 70%; /* Not necessary, since only 70% width remains */
+}
+th.amount, th.sort {
+  width: 5%; /* Not necessary, since only 70% width remains */
+}
+
+.btn-blue{
+	background-color: #4DD0E1;
+	color: white;
+	border-radius: 0;
+}
+
+.btn-brown{
+	background-color: #795548;
+	color: white;
+	border-radius: 0;
+}

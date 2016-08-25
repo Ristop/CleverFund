@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817124610) do
+ActiveRecord::Schema.define(version: 20160824165208) do
+
+  create_table "app_variables", force: :cascade do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "notices", force: :cascade do |t|
     t.string   "from_email"
@@ -20,6 +27,8 @@ ActiveRecord::Schema.define(version: 20160817124610) do
     t.boolean  "income"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "epoch_time"
+    t.boolean  "sorted"
   end
 
 end

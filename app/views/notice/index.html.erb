@@ -1,23 +1,73 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>The HTML5 Herald</title>
-	<meta name="description" content="The HTML5 Herald">
-	<meta name="author" content="SitePoint">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-</head>
+	<head>
+		<meta charset="utf-8">
+		<title>The HTML5 Herald</title>
+		<meta name="description" content="The HTML5 Herald">
+		<meta name="author" content="SitePoint">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!-- Latest compiled and minified JavaScript -->
+		<link rel="stylesheet" href=<%= asset_path('assets/css/main.css') %>>
+		<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src=<%= asset_path('assets/js/jquery.tablesorter.js') %>></script>
+		<script src=<%= asset_path('assets/js/get_notices.js') %>></script>
+	</head>
 
-<body>
-	<br>
-	<div class="container">
-		<%= button_to "Scan", { action: "scan" }, method: "get", class: "btn btn-info btn-lg center-block" %>
-	</div>
-</body>
+	<body>
+		<div class="container">
+			<div >
+				<h1>New notices</h1>
+				<table class="table table-striped-red table-inverse" id="new_notices">
+					<thead>
+						<tr>
+							<th class="amount">€</th>
+							<th class="description">Description</th>
+							<th class="date text-right">Date</th>
+							<th class="sort text-right">Sort</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @new_notices.each do |notice| %>
+						<tr>
+							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
+							<td><%= notice.from_name %></td>
+							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="text-right">
+								<%= link_to 'X', 'notice/'+notice.id.to_s+'/edit', method: :get, data: { }, :remote => true, :class => 'update_notice sort_notice' %>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+				<%= button_to "Scan for new notices", { action: "scan" }, method: "get", class: "btn btn-blue btn-lg" %>
+				<h1>Sorted notices</h1>
+				<table class="table table-striped-green table-inverse" id="sorted_notices">
+					<thead>
+						<tr>
+							<th class="amount">€</th>
+							<th class="description">Description</th>
+							<th class="date text-right">Date</th>
+							<th class="sort text-right">Sort</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @sorted_notices.each do |notice| %>
+						<tr>
+							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
+							<td><%= notice.from_name %></td>
+							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="text-right">
+								<%= link_to 'X', 'notice/'+notice.id.to_s+'/edit', method: :get, data: { }, :remote => true, :class => 'update_notice unsort_notice' %>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+				<%= button_to "Export to excel", { action: "scan" }, method: "get", class: "btn btn-brown btn-lg" %>
+			</div>
+		</div>
+	</body>
 </html>
