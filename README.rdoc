@@ -16,4 +16,4 @@ Implemented features
 Since this is my first rails application, I will be documenting all the changes very specifically in changelog.txt
 
 Screenshot of the pre-alpha Version:
-"http://i.imgur.com/S7DM4rY.png"
+http://i.imgur.com/S7DM4rY.png
