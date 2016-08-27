@@ -69,3 +69,18 @@ Aug 23, 24, 25 2016 -
 		notice will change tables.
 	5.8 Stored the last notices data in db model AppVariable as baseline for
 		scanning new notices.
+
+Aug 26, 27 2016 -
+	6.1 Implemented tags feature:
+		6.1.1 User can now assign tags to new notices
+		6.1.2 User can sort notices that are tagged. Notices without a tag can
+			not be sorted
+		6.1.3 Sorted notices are shown with corresponding tag
+		6.1.4 User can choose between preset tags.
+		6.1.5 Added tag column to model, new notice has an empty string tag and
+			sorted notices must have a tag.
+	6.2 Implemented export to excel feature
+		6.2.1 User can export sorted notices to excel
+		6.2.2 Right now the export part is commented out because I need to work
+			on the excel sheet
+	6.3 Enhanced the index view, color changes etc..

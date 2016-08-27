@@ -26,6 +26,7 @@
 							<th class="amount">€</th>
 							<th class="description">Description</th>
 							<th class="date text-right">Date</th>
+							<th class="tag text-center">Tag</th>
 							<th class="sort text-right">Sort</th>
 						</tr>
 					</thead>
@@ -35,8 +36,23 @@
 							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
 							<td><%= notice.from_name %></td>
 							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="text-left">
+								<select class="form-control">
+									<option value="Select">Select</option>
+									<option value="Hookah">Hookah</option>
+									<option value="Eating out">Eating out</option>
+									<option value="Gas">Gas</option>
+									<option value="Taxes">Taxes</option>
+									<option value="Food">Food</option>
+									<option value="Car">Car</option>
+									<option value="Swimming">Swimming</option>
+									<option value="Alcohol">Alcohol</option>
+									<option value="One time">One time</option>
+									<option value="Other">Other</option>
+								</select>
+							</td>
 							<td class="text-right">
-								<%= link_to 'X', 'notice/'+notice.id.to_s+'/edit', method: :get, data: { }, :remote => true, :class => 'update_notice sort_notice' %>
+								<button class="update_notice sort_notice" value=<%= 'notice/' + notice.id.to_s + '/edit' %>>X</button>
 							</td>
 						</tr>
 						<% end %>
@@ -50,7 +66,8 @@
 							<th class="amount">€</th>
 							<th class="description">Description</th>
 							<th class="date text-right">Date</th>
-							<th class="sort text-right">Sort</th>
+							<th class="tag text-center">Tag</th>
+							<th class="sort text-right">Unsort</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -59,14 +76,19 @@
 							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
 							<td><%= notice.from_name %></td>
 							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="tag text-center">
+								<div class="tag-box">
+									<%= notice.tag %>
+								</div>
+							</td>
 							<td class="text-right">
-								<%= link_to 'X', 'notice/'+notice.id.to_s+'/edit', method: :get, data: { }, :remote => true, :class => 'update_notice unsort_notice' %>
+								<button class="update_notice unsort_notice" value=<%= 'notice/' + notice.id.to_s + '/edit' %>>X</button>
 							</td>
 						</tr>
 						<% end %>
 					</tbody>
 				</table>
-				<%= button_to "Export to excel", { action: "scan" }, method: "get", class: "btn btn-brown btn-lg" %>
+				<%= button_to "Export to excel", { action: "export" }, method: "get", class: "btn btn-brown btn-lg" %>
 			</div>
 		</div>
 	</body>

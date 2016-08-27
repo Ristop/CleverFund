@@ -143,6 +143,13 @@ GEM
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     retriable (2.1.0)
+    roo (2.4.0)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
+    rubyXL (3.3.21)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.1.6)
+    rubyzip (1.2.0)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -196,6 +203,8 @@ DEPENDENCIES
   jquery-rails
   rails (= 4.2.5.1)
   responders (~> 2.0)
+  roo (~> 2.4.0)
+  rubyXL
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sqlite3

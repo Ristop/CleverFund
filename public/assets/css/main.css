@@ -12,14 +12,17 @@
     width: 100%;
 }
 
-th.date {
+#sorted_notices th.date, #new_notices th.date {
   width: 20%
 }
-th.description {
-  width: 70%; /* Not necessary, since only 70% width remains */
+#sorted_notices th.tag, #new_notices th.tag {
+	width: 12%;
 }
-th.amount, th.sort {
-  width: 5%; /* Not necessary, since only 70% width remains */
+#sorted_notices th.description, #new_notices th.description {
+  width: 58%;
+}
+#sorted_notices th.amount, #new_notices th.sort {
+  width: 5%;
 }
 
 .btn-blue{
@@ -32,4 +35,27 @@ th.amount, th.sort {
 	background-color: #795548;
 	color: white;
 	border-radius: 0;
+}
+
+.form-control{
+	color: black;
+	border-radius: 5px;
+	height: 100%;
+  	padding: 0 8px;
+	text-align: center;
+}
+
+.tag-box {
+	border-radius: 5px;
+	background-color: white;
+	color: #795548;
+	font-weight: bold;
+}
+
+
+.update_notice {
+	background-color: white;
+	border-radius: 5px;
+	color: white;
+	text-align: center;
 }
