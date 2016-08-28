@@ -1,8 +1,8 @@
 == CleverFund
 
-CleverFund will be easy to use budgeting app that reads the data from bank notices that are sent to your email
-account when you have that option enabled in your banks setting. It will use gmail API for ruby to fetch bank
-messages and import the data to excel spreadsheet.
+CleverFund is easy to use budgeting app that reads the data from bank notices that are sent to your email
+account when you have that option enabled in your banks setting (right now works only with SEB).
+It uses Gmail API for ruby to fetch bank messages and can import said data to excel spreadsheet.
 
 * App is in alpha and is maybe somewhat usable..
 
@@ -13,9 +13,10 @@ Implemented features
 * Displaying new notices in view
 * Marking new notices as sorted and moving notices between two tables
 * Setting tags to notices
-* Exporting notices to excel sheet
+* Adding/removing tags
+* Exporting notices to excel sheet (alpha)
 
 Since this is my first rails application, I will be documenting all the changes very specifically in changelog.txt
 
-Screenshot of the pre-alpha Version:
-http://i.imgur.com/BNGEosh.png
+Screenshot of the alpha Version:
+http://i.imgur.com/qaFoLeQ.png

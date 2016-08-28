@@ -84,3 +84,16 @@ Aug 26, 27 2016 -
 		6.2.2 Right now the export part is commented out because I need to work
 			on the excel sheet
 	6.3 Enhanced the index view, color changes etc..
+
+Aug 28 2016 -
+	7.1 User can now add new tags.
+	7.2 Changed styling of tags, they are now in a orange container.
+	7.3 Refactored get_notices.js and renamed it to ajax_functionality.js
+		because it now does much more than just getting notices.
+	7.4 User can now remove tags
+		7.4.1 Hovering on a tag will show x button and clicking on it will
+			remove the tag
+		7.4.2 Added destroy method to TagController and create a route to it
+	7.5 Index page now also shows all tags and is also same place where user can
+		remove them.
+	7.6 Excel Spreadsheet is not yet included 

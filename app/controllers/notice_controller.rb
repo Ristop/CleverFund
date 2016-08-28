@@ -15,7 +15,8 @@ class NoticeController < ApplicationController
         @sorted_notices = Notice.where(sorted: true).all
         @@number_of_new_notices = @new_notices.count
         @@number_of_sorted_notices = @sorted_notices.count
-        [@new_notices, @sorted_notices]
+		@tags = Tag.all
+        [@new_notices, @sorted_notices, @tags]
     end
 
     # Scans for new notices through Gmail API if latest_message_epoch_time is set
@@ -86,4 +87,11 @@ class NoticeController < ApplicationController
         end
         head :no_content
     end
+
+	def new_tag
+		puts(params[:tag][:name])
+		@tag = Tag.new(name: params[:tag][:name])
+		@tag.save
+		redirect_to "/notice"
+	end
 end

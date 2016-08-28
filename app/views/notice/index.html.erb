@@ -3,9 +3,9 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>The HTML5 Herald</title>
-		<meta name="description" content="The HTML5 Herald">
-		<meta name="author" content="SitePoint">
+		<title>Clever Fund</title>
+		<meta name="description" content="Clever Fund">
+		<meta name="author" content="Risto Pärnapuu">
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<!-- Latest compiled and minified JavaScript -->
@@ -13,7 +13,7 @@
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src=<%= asset_path('assets/js/jquery.tablesorter.js') %>></script>
-		<script src=<%= asset_path('assets/js/get_notices.js') %>></script>
+		<script src=<%= asset_path('assets/js/ajax_functionality.js') %>></script>
 	</head>
 
 	<body>
@@ -26,7 +26,7 @@
 							<th class="amount">€</th>
 							<th class="description">Description</th>
 							<th class="date text-right">Date</th>
-							<th class="tag text-center">Tag</th>
+							<th class="tag text-right">Tag</th>
 							<th class="sort text-right">Sort</th>
 						</tr>
 					</thead>
@@ -37,18 +37,13 @@
 							<td><%= notice.from_name %></td>
 							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
 							<td class="text-left">
-								<select class="form-control">
+								<select class="form-control form-tags">
 									<option value="Select">Select</option>
-									<option value="Hookah">Hookah</option>
-									<option value="Eating out">Eating out</option>
-									<option value="Gas">Gas</option>
-									<option value="Taxes">Taxes</option>
-									<option value="Food">Food</option>
-									<option value="Car">Car</option>
-									<option value="Swimming">Swimming</option>
-									<option value="Alcohol">Alcohol</option>
-									<option value="One time">One time</option>
-									<option value="Other">Other</option>
+									<% @tags.each do |tag| %>
+										<div class="tag-container">
+											<option value=<%= tag.name %>><%= tag.name %></option>
+										</div>
+									<% end %>
 								</select>
 							</td>
 							<td class="text-right">
@@ -66,7 +61,7 @@
 							<th class="amount">€</th>
 							<th class="description">Description</th>
 							<th class="date text-right">Date</th>
-							<th class="tag text-center">Tag</th>
+							<th class="tag text-right">Tag</th>
 							<th class="sort text-right">Unsort</th>
 						</tr>
 					</thead>
@@ -76,7 +71,7 @@
 							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
 							<td><%= notice.from_name %></td>
 							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
-							<td class="tag text-center">
+							<td class="tag text-right">
 								<div class="tag-box">
 									<%= notice.tag %>
 								</div>
@@ -89,6 +84,35 @@
 					</tbody>
 				</table>
 				<%= button_to "Export to excel", { action: "export" }, method: "get", class: "btn btn-brown btn-lg" %>
+				<div>
+					<div class="col-sm-6 col-xs-12">
+						<hr>
+						<h3>Tags</h3>
+						<form accept-charset="UTF-8" action="/tag/new" method="post">
+							<div>
+								<div class="input-group tag_form">
+									<input type="text" class="form-control" id="name" name="tag[name]" type="text" placeholder="Tag name">
+									<span class="input-group-btn">
+										<button name="commit" type="submit" value="Create" class="btn btn-secondary btn-brown" type="button">Add</button>
+									</span>
+									<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-sm-6 col-xs-12">
+						<hr>
+						<p>
+						<% @tags.each do |tag| %>
+							<div class="tag-container">
+								<span><%= tag.name %></span>
+								<%= hidden_field_tag :tag_id, tag.id %>
+							</div>
+						<% end %>
+						</p>
+					</div>
+				</div>
+				<div class="col-sm-12 col-xs-12 footer"></div>
 			</div>
 		</div>
 	</body>

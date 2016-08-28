@@ -9,4 +9,8 @@ Rails.application.routes.draw do
 
 	get 'notice/export' => 'notice#export'
 
+
+	post '/tag/new' => 'notice#new_tag'
+	delete '/tag/:id' => 'tag#destroy'
+	get '/tag/all' => 'tag#all'
 end

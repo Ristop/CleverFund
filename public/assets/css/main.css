@@ -37,19 +37,22 @@
 	border-radius: 0;
 }
 
-.form-control{
+.form-tags{
 	color: black;
 	border-radius: 5px;
 	height: 100%;
-  	padding: 0 8px;
+  	padding: 3px 8px;
 	text-align: center;
+	display: block;
 }
 
 .tag-box {
+	display: inline-block;
 	border-radius: 5px;
-	background-color: white;
-	color: #795548;
+	background-color: #FF5722;
+	color: white;
 	font-weight: bold;
+	padding: 3px 7px;
 }
 
 
@@ -58,4 +61,31 @@
 	border-radius: 5px;
 	color: white;
 	text-align: center;
+}
+
+.tag_form{
+	width: 100%;
+}
+
+.footer{
+	height: 60px;
+}
+
+.tag-container{
+	display: inline-block;
+	background-color: #FF5722;
+	border-radius: 5px;
+	color: white;
+	width:auto;
+	padding: 5px 7px;
+	margin: 3px 0;
+	font-weight: bold;
+	text-align: center;
+}
+
+.tag-container:hover {
+    background-color: #FFCCBC;
+	cursor: pointer;
+	color: #FF5722;
+	font-weight: bold;
 }
