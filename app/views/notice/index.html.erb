@@ -6,6 +6,7 @@
 		<title>Clever Fund</title>
 		<meta name="description" content="Clever Fund">
 		<meta name="author" content="Risto Pärnapuu">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<!-- Latest compiled and minified JavaScript -->
@@ -33,15 +34,21 @@
 					<tbody>
 						<% @new_notices.each do |notice| %>
 						<tr>
-							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
+							<td class="<%= notice.income ? "increased-amount-new" : "decreased-amount-new" %>" ><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
 							<td><%= notice.from_name %></td>
-							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:db) %></td>
 							<td class="text-left">
 								<select class="form-control form-tags">
-									<option value="Select">Select</option>
-									<% @tags.each do |tag| %>
+									<% if !notice.income %>
+										<option value="Select">Select</option>
+										<% @tags.each do |tag| %>
+											<div class="tag-container">
+												<option value=<%= tag.name %>><%= tag.name %></option>
+											</div>
+										<% end %>
+									<% else %>
 										<div class="tag-container">
-											<option value=<%= tag.name %>><%= tag.name %></option>
+											<option selected="selected" value="Income">Income</option>
 										</div>
 									<% end %>
 								</select>
@@ -53,7 +60,7 @@
 						<% end %>
 					</tbody>
 				</table>
-				<%= button_to "Scan for new notices", { action: "scan" }, method: "get", class: "btn btn-blue btn-lg" %>
+				<%= button_to "Scan for new notices", { action: "scan" }, method: "get", class: "btn btn-blue btn-lg scan-btn" %>
 				<h1>Sorted notices</h1>
 				<table class="table table-striped-green table-inverse" id="sorted_notices">
 					<thead>
@@ -68,9 +75,9 @@
 					<tbody>
 						<% @sorted_notices.each do |notice| %>
 						<tr>
-							<td><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
+							<td class="<%= notice.income ? "increased-amount-sorted" : "decreased-amount-sorted" %>"><%= notice.income ? "+" : "-" %><%= notice.amount %></td>
 							<td><%= notice.from_name %></td>
-							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:short) %></td>
+							<td class="text-right"><%= DateTime.strptime(notice.epoch_time,'%s').to_formatted_s(:db) %></td>
 							<td class="tag text-right">
 								<div class="tag-box">
 									<%= notice.tag %>
@@ -84,7 +91,7 @@
 					</tbody>
 				</table>
 				<%= button_to "Export to excel", { action: "export" }, method: "get", class: "btn btn-brown btn-lg" %>
-				<div>
+				<div class="tags-container">
 					<div class="col-sm-6 col-xs-12">
 						<hr>
 						<h3>Tags</h3>

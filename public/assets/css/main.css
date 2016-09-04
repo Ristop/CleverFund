@@ -1,10 +1,14 @@
+body{
+	font-family: 'Roboto', sans-serif;
+}
+
 .table-striped-red> tbody> tr {
-    background-color: #4DD0E1;
+    background-color: #78909C;
     color: white;
     margin: 5px 0;
 }
 .table-striped-green> tbody> tr {
-    background-color: #795548;
+    background-color: #78909C;
     color: white;
     margin: 5px 0;
 }
@@ -25,17 +29,26 @@
   width: 5%;
 }
 
+h1{
+	font-family: 'Roboto', sans-serif;
+}
+
 .btn-blue{
-	background-color: #4DD0E1;
+	background-color: #546E7A;
 	color: white;
 	border-radius: 0;
 }
 
 .btn-brown{
-	background-color: #795548;
+	background-color: #546E7A;
 	color: white;
 	border-radius: 0;
 }
+.btn-brown:hover, .btn-blue:hover{
+	background-color: #FF5722;
+	color: white;
+}
+
 
 .form-tags{
 	color: black;
@@ -54,7 +67,6 @@
 	font-weight: bold;
 	padding: 3px 7px;
 }
-
 
 .update_notice {
 	background-color: white;
@@ -88,4 +100,28 @@
 	cursor: pointer;
 	color: #FF5722;
 	font-weight: bold;
+}
+
+.increased-amount-new{
+	color: #B2FF59;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+.decreased-amount-new{
+	color: #B71C1C;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+.increased-amount-sorted{
+	color: #B2FF59;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+.decreased-amount-sorted{
+	color: #B71C1C;
+	font-weight: bold;
+	font-size: 120%;
 }

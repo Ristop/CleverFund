@@ -5,6 +5,7 @@ class NoticeController < ApplicationController
 
     @@number_of_new_notices = 0
     @@number_of_sorted_notices = 0
+    @@scanning = false
 
     # Updates the count of new notices and sorted notices
     # *Returns* :
@@ -15,7 +16,7 @@ class NoticeController < ApplicationController
         @sorted_notices = Notice.where(sorted: true).all
         @@number_of_new_notices = @new_notices.count
         @@number_of_sorted_notices = @sorted_notices.count
-		@tags = Tag.all
+        @tags = Tag.all
         [@new_notices, @sorted_notices, @tags]
     end
 
@@ -23,8 +24,14 @@ class NoticeController < ApplicationController
     # *Returns* :
     # 	- No content
     def scan
+        @@scanning = true
         if AppVariable.exists?(name: 'latest_message_epoch_time')
-            thr = Thread.new { GmailReader.read_bank_notices(AppVariable.find(1).value) }
+            thr = Thread.new do
+                GmailReader.read_bank_notices(AppVariable.find(1).value)
+                @@scanning = false
+            end
+        else
+          @@scanning = false
         end
         head :no_content
     end
@@ -60,38 +67,46 @@ class NoticeController < ApplicationController
         respond_with(@new_notices)
     end
 
-	# Changes Notice objects sorted value to true and adds tag
-	# *Returns* :
-	# 	- No content
+    # Changes Notice objects sorted value to true and adds tag
+    # *Returns* :
+    # 	- No content
     def add_to_sorted
         @notice = Notice.find(params[:id])
-        if !@notice.sorted
+        unless @notice.sorted
             @notice.update_attribute(:sorted, true)
-			@notice.update_attribute(:tag, params[:tag])
+            @notice.update_attribute(:tag, params[:tag])
             @@number_of_new_notices -= 1
             @@number_of_sorted_notices += 1
         end
         head :no_content
     end
 
-	# Changes Notice objects sorted value to false and removes tag
-	# *Returns* :
-	# 	- No content
-	def add_to_unsorted
+    # Changes Notice objects sorted value to false and removes tag
+    # *Returns* :
+    # 	- No content
+    def add_to_unsorted
         @notice = Notice.find(params[:id])
         if @notice.sorted
             @notice.update_attribute(:sorted, false)
-			@notice.update_attribute(:tag, "")
+            @notice.update_attribute(:tag, '')
             @@number_of_new_notices += 1
             @@number_of_sorted_notices -= 1
         end
         head :no_content
+      end
+
+    def new_tag
+        if params[:tag][:name].strip.capitalize != 'Income'
+            @tag = Tag.new(name: params[:tag][:name])
+            @tag.save
+        end
+        redirect_to '/notice'
     end
 
-	def new_tag
-		puts(params[:tag][:name])
-		@tag = Tag.new(name: params[:tag][:name])
-		@tag.save
-		redirect_to "/notice"
-	end
+    def is_scanning
+        puts "is this working?"
+        response_boolean = @@scanning ? "True" : "False"
+        puts "is this " + response_boolean
+        render json: response_boolean.to_json
+    end
 end

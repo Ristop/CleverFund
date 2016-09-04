@@ -18,10 +18,10 @@ module ExcelExporter
     )
 
     def self.insert_notice(date, amount, tag)
-        xlsx = Roo::Spreadsheet.open('C:\Users\Risto\Dropbox\Programmeerimine\CleverFund\lib\budget.xlsm')
-        xlsx = Roo::Excelx.new('C:\Users\Risto\Dropbox\Programmeerimine\CleverFund\lib\budget.xlsm')
+        xlsx = Roo::Spreadsheet.open('/Users/ristoparnapuu/Dropbox/Programmeerimine/CleverFund/lib/budget.xlsm')
+        xlsx = Roo::Excelx.new('/Users/ristoparnapuu/Dropbox/Programmeerimine/CleverFund/lib/budget.xlsm')
 
-        workbook = RubyXL::Parser.parse('C:\Users\Risto\Dropbox\Programmeerimine\CleverFund\lib\budget.xlsm')
+        workbook = RubyXL::Parser.parse('/Users/ristoparnapuu/Dropbox/Programmeerimine/CleverFund/lib/budget.xlsm')
         worksheet = workbook[@@month_names[date.mon - 1]]
         @row = nil
         @column = nil

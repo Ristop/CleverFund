@@ -9,7 +9,7 @@ module GmailReader
 
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
     APPLICATION_NAME = 'CleverFund'.freeze
-    CLIENT_SECRETS_PATH = 'C:/Users/Risto/Dropbox/Programmeerimine/CleverFund/lib/client_secret.json'.freeze
+    CLIENT_SECRETS_PATH = '/Users/ristoparnapuu/Dropbox/Programmeerimine/CleverFund/lib/client_secret.json'.freeze
     CREDENTIALS_PATH = File.join(Dir.home, '.credentials', 'gmail-ruby-quickstart.yaml')
     SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
@@ -59,7 +59,7 @@ module GmailReader
         google_formated_date = DateTime.strptime(date, '%s').to_formatted_s(:google_after)
 
         user_id = 'me' # Use authenicated users email
-        all_messages = service.list_user_messages(user_id, q: 'from:automailer@seb.ee after:' + google_formated_date, max_results: 15, include_spam_trash: false)
+        all_messages = service.list_user_messages(user_id, q: 'from:automailer@seb.ee after:' + google_formated_date, max_results: 20, include_spam_trash: false)
 
         newest_date = nil
 
@@ -77,14 +77,15 @@ module GmailReader
             # Figure out what type of message it is
             if message_body.include? 'Teie kontol on toimunud broneering'
                 NoticeParser.parseBroneering(message_body, message_internal_date)
-            elsif message_body.include? "Teie kontolt on toimunud väljaminek"
+            elsif message_body.include? "Teie kontolt on toimunud v\u00E4ljaminek"
                 NoticeParser.parseValjaminek(message_body, message_internal_date)
             elsif message_body.include? 'Teie kontole on toimunud laekumine'
                 NoticeParser.parseLaekmine(message_body, message_internal_date)
+            elsif message_body.include? 'Tagasimakse broneeringult kontol'
+                NoticeParser.parseTagasimakse(message_body, message_internal_date)
             else
                 raise "Exception - Unknow notice type! - #{message_body}"
-			end
-
+      end
         end
         unless newest_date.nil?
             puts 'Writing new date'
